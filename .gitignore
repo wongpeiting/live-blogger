@@ -1,0 +1,17 @@
+# Runtime output
+transcript.jsonl
+liveblog.md
+face_shots/
+
+# Python
+__pycache__/
+*.pyc
+
+# Claude Code (contains local API key permissions)
+.claude/
+
+# Prompts (editorial strategy — keep private)
+prompts/config.json
+
+# Environment
+.env

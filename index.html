@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parliament Live Blogging Pipeline — Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06080c;--bg2:#0c1018;--bg3:#121824;
+  --border:#1a2234;--border-hi:#2a3a54;
+  --text:#c8d0e0;--text-dim:#6a7a94;--text-bright:#e8eef8;
+  --listener:#00d4ff;--listener-dim:#00d4ff22;--listener-glow:#00d4ff44;
+  --coordinator:#f0a030;--coordinator-dim:#f0a03022;--coordinator-glow:#f0a03044;
+  --blogger:#40e080;--blogger-dim:#40e08022;--blogger-glow:#40e08044;
+  --breaking:#ff3355;--strong:#ff8833;--notable:#4488ff;--colour:#778899;--routine:#334455;
+  --gemini:#a78bfa;
+  --radius:6px;
+}
+html{font-size:18px;scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'IBM Plex Sans',sans-serif;
+  line-height:1.5;overflow-x:hidden;
+  min-height:100vh;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%,#00d4ff06,transparent),
+    radial-gradient(ellipse 60% 40% at 80% 90%,#40e08006,transparent),
+    radial-gradient(ellipse 50% 50% at 50% 50%,#f0a03004,transparent);
+}
+
+/* Grain overlay */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+  opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.page{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:40px 32px 80px}
+
+/* ─── HEADER ─── */
+.header{text-align:center;margin-bottom:56px;position:relative}
+.header::after{
+  content:'';display:block;width:120px;height:1px;margin:20px auto 0;
+  background:linear-gradient(90deg,transparent,var(--border-hi),transparent);
+}
+.header h1{
+  font-family:'IBM Plex Mono',monospace;font-size:1.2rem;font-weight:500;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);
+  margin-bottom:8px;
+}
+.header h2{
+  font-size:2rem;font-weight:700;color:var(--text-bright);
+  letter-spacing:-.02em;line-height:1.2;
+}
+.header h2 span{
+  background:linear-gradient(135deg,var(--listener),var(--coordinator),var(--blogger));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+/* ─── STAGE CONTAINERS ─── */
+.stage{
+  position:relative;margin-bottom:24px;
+  border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--bg2);overflow:hidden;
+  transition:border-color .3s;
+}
+.stage:hover{border-color:var(--border-hi)}
+
+.stage-header{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 20px;border-bottom:1px solid var(--border);
+  background:var(--bg3);
+}
+.stage-badge{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 10px;border-radius:3px;white-space:nowrap;
+}
+.stage-badge.listener{background:var(--listener-dim);color:var(--listener);border:1px solid var(--listener)33}
+.stage-badge.coordinator{background:var(--coordinator-dim);color:var(--coordinator);border:1px solid var(--coordinator)33}
+.stage-badge.blogger{background:var(--blogger-dim);color:var(--blogger);border:1px solid var(--blogger)33}
+
+.stage-title{font-weight:600;font-size:1.05rem;color:var(--text-bright)}
+.stage-subtitle{font-size:.85rem;color:var(--text-dim);margin-left:auto;font-family:'IBM Plex Mono',monospace}
+
+.stage-body{padding:20px}
+
+/* ─── FLOW STEPS ─── */
+.flow{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.flow.cols-7{grid-template-columns:repeat(7,minmax(0,1fr))}
+.flow.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.flow-step{
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  padding:14px 16px;position:relative;
+  transition:all .25s;cursor:default;
+  overflow-wrap:break-word;word-wrap:break-word;
+}
+.flow-step:hover{
+  border-color:var(--border-hi);
+  transform:translateY(-2px);
+  box-shadow:0 4px 20px #00000040;
+}
+.flow-step .icon{font-size:1.4rem;margin-bottom:6px;display:block}
+.flow-step .tool{
+  font-family:'IBM Plex Mono',monospace;font-size:.65rem;font-weight:600;
+  letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px;
+  display:block;
+}
+.flow-step.listener-step .tool{color:var(--listener)}
+.flow-step.coordinator-step .tool{color:var(--coordinator)}
+.flow-step.blogger-step .tool{color:var(--blogger)}
+.flow-step.gemini-step .tool{color:var(--gemini)}
+
+.flow-step .desc{font-size:.82rem;color:var(--text-dim);line-height:1.4}
+.flow-step .detail{
+  font-size:.72rem;color:var(--text-dim);opacity:.6;
+  font-family:'IBM Plex Mono',monospace;margin-top:4px;
+}
+
+/* Flow arrows — hidden in grid layout */
+.flow-arrow{display:none}
+
+/* Step numbers via CSS counter */
+.flow{counter-reset:step}
+.flow-step{counter-increment:step}
+.flow-step::after{
+  content:counter(step);
+  position:absolute;top:10px;right:12px;
+  font-family:'IBM Plex Mono',monospace;font-size:.65rem;font-weight:600;
+  color:var(--text-dim);opacity:.35;
+  width:20px;height:20px;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border);border-radius:50%;
+}
+.flow-step .timing{right:38px}
+
+/* ─── CONNECTOR between stages ─── */
+.connector{
+  display:flex;flex-direction:column;align-items:center;
+  padding:8px 0;position:relative;
+}
+.connector-line{
+  width:2px;height:24px;position:relative;overflow:hidden;
+}
+.connector-line::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:100%;
+  background:var(--border-hi);
+}
+.connector-line::after{
+  content:'';position:absolute;top:-100%;left:0;width:100%;height:50%;
+  background:linear-gradient(180deg,transparent,var(--listener),transparent);
+  animation:flow-down 2s linear infinite;
+}
+.connector.coord .connector-line::after{
+  background:linear-gradient(180deg,transparent,var(--coordinator),transparent);
+}
+.connector-label{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-dim);padding:4px 12px;
+  background:var(--bg);border:1px solid var(--border);border-radius:20px;
+  margin:4px 0;
+}
+.connector-label .file{color:var(--listener)}
+.connector.coord .connector-label .file{color:var(--coordinator)}
+
+@keyframes flow-down{
+  0%{top:-100%}100%{top:200%}
+}
+
+/* ─── TRIAGE SCORES ─── */
+.triage-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:6px;
+  margin-top:12px;
+}
+.triage-item{
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  padding:12px 14px;text-align:center;position:relative;overflow:hidden;
+  transition:all .25s;cursor:default;
+  overflow-wrap:break-word;word-wrap:break-word;
+}
+.triage-item:hover{transform:translateY(-2px);box-shadow:0 4px 20px #00000040}
+.triage-item::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+}
+.triage-item.t5::before{background:var(--breaking)}
+.triage-item.t4::before{background:var(--strong)}
+.triage-item.t3::before{background:var(--notable)}
+.triage-item.t2::before{background:var(--colour)}
+.triage-item.t1::before{background:var(--routine)}
+.triage-item:hover::before{height:3px}
+
+.triage-score{
+  font-family:'IBM Plex Mono',monospace;font-size:1.6rem;font-weight:700;
+  line-height:1;margin-bottom:4px;
+}
+.t5 .triage-score{color:var(--breaking)}
+.t4 .triage-score{color:var(--strong)}
+.t3 .triage-score{color:var(--notable)}
+.t2 .triage-score{color:var(--colour)}
+.t1 .triage-score{color:var(--routine)}
+
+.triage-label{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px;
+}
+.t5 .triage-label{color:var(--breaking)}
+.t4 .triage-label{color:var(--strong)}
+.t3 .triage-label{color:var(--notable)}
+.t2 .triage-label{color:var(--colour)}
+.t1 .triage-label{color:var(--routine)}
+
+.triage-rule{font-size:.75rem;color:var(--text-dim);line-height:1.3}
+
+/* ─── BLOGGER LANES ─── */
+.blogger-lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.blogger-lane{
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px;position:relative;overflow:hidden;
+  transition:all .25s;
+  overflow-wrap:break-word;word-wrap:break-word;
+}
+.blogger-lane:hover{border-color:var(--blogger)44;box-shadow:0 0 20px var(--blogger-glow)}
+.blogger-lane::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--blogger);opacity:.5;
+}
+.blogger-lane-title{
+  font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--blogger);
+  margin-bottom:10px;display:flex;align-items:center;gap:6px;
+}
+.blogger-lane-title .pulse{
+  width:6px;height:6px;border-radius:50%;background:var(--blogger);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:.3;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.3)}
+}
+.blogger-lane .step{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:6px 0;font-size:.82rem;color:var(--text-dim);
+}
+.blogger-lane .step-num{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:600;
+  color:var(--blogger);opacity:.6;min-width:14px;padding-top:1px;
+}
+.blogger-lane .step-text .em{color:var(--gemini);font-weight:500}
+.blogger-lane .step-text .file{color:var(--blogger);font-family:'IBM Plex Mono',monospace;font-size:.78rem}
+
+/* ─── SHARED STATE PANEL ─── */
+.shared-state{
+  margin-top:32px;
+  border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--bg2);overflow:hidden;
+}
+.shared-state-header{
+  padding:14px 20px;border-bottom:1px solid var(--border);
+  background:var(--bg3);
+  font-weight:600;font-size:.95rem;color:var(--text-bright);
+  display:flex;align-items:center;gap:8px;
+}
+.shared-state-body{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:1px;background:var(--border);
+}
+.state-item{
+  background:var(--bg2);padding:14px 16px;
+  transition:background .2s;cursor:default;
+  overflow-wrap:break-word;word-wrap:break-word;
+}
+.state-item:hover{background:var(--bg3)}
+.state-item .name{
+  font-family:'IBM Plex Mono',monospace;font-size:.82rem;font-weight:600;
+  color:var(--text-bright);margin-bottom:2px;display:flex;align-items:center;gap:6px;
+}
+.state-item .name .lock{font-size:.7rem;opacity:.5}
+.state-item .meta{font-size:.75rem;color:var(--text-dim)}
+
+/* ─── SHUTDOWN FLOW ─── */
+.shutdown{
+  margin-top:32px;
+  border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--bg2);overflow:hidden;
+}
+.shutdown-header{
+  padding:14px 20px;border-bottom:1px solid var(--border);
+  background:var(--bg3);
+  font-weight:600;font-size:.95rem;color:var(--text-bright);
+  display:flex;align-items:center;gap:8px;
+}
+.shutdown-body{padding:16px 20px}
+.shutdown-steps{display:flex;gap:12px;flex-wrap:wrap}
+.shutdown-step{
+  flex:1;min-width:200px;
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  padding:14px 16px;position:relative;
+  overflow-wrap:break-word;word-wrap:break-word;
+}
+.shutdown-step .num{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:600;
+  color:var(--breaking);opacity:.7;margin-bottom:4px;
+}
+.shutdown-step .label{font-size:.88rem;color:var(--text-bright);font-weight:500;margin-bottom:2px}
+.shutdown-step .info{font-size:.78rem;color:var(--text-dim)}
+
+/* ─── ANIMATED PARTICLES ─── */
+.particles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.particle{
+  position:absolute;width:2px;height:2px;border-radius:50%;
+  opacity:0;animation:particle-float linear infinite;
+}
+@keyframes particle-float{
+  0%{opacity:0;transform:translateY(0) scale(0)}
+  10%{opacity:.6}
+  90%{opacity:.6}
+  100%{opacity:0;transform:translateY(-100vh) scale(1)}
+}
+
+/* ─── TIMING ANNOTATIONS ─── */
+.timing{
+  position:absolute;top:8px;right:10px;
+  font-family:'IBM Plex Mono',monospace;font-size:.65rem;
+  color:var(--text-dim);opacity:.5;
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .triage-grid{grid-template-columns:repeat(3,1fr)}
+  .blogger-lanes{grid-template-columns:1fr}
+  .flow{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+  .shutdown-steps{flex-direction:column}
+}
+@media(max-width:600px){
+  .page{padding:20px 16px 60px}
+  .header h2{font-size:1.6rem}
+  .triage-grid{grid-template-columns:repeat(2,1fr)}
+  .shared-state-body{grid-template-columns:1fr}
+}
+
+/* ─── SECTION LABELS ─── */
+.section-label{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:500;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);
+  margin-bottom:10px;padding-left:2px;
+}
+
+/* ─── INPUT/OUTPUT BADGES ─── */
+.io-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;
+  padding:3px 10px;border-radius:3px;margin-right:6px;
+}
+.io-badge.input{background:#00d4ff11;color:var(--listener);border:1px solid #00d4ff22}
+.io-badge.output{background:#40e08011;color:var(--blogger);border:1px solid #40e08022}
+
+/* Highlight animation on load */
+.stage{animation:stage-in .6s ease-out both}
+.stage:nth-child(1){animation-delay:.1s}
+.stage:nth-child(3){animation-delay:.2s}
+.stage:nth-child(5){animation-delay:.3s}
+@keyframes stage-in{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+
+<div class="page">
+
+  <header class="header">
+    <h1>System Architecture</h1>
+    <h2><span>Parliament Live Blogging Pipeline</span></h2>
+  </header>
+
+  <!-- ═══════════ STAGE 1: LISTENER ═══════════ -->
+  <div class="stage" style="border-color:var(--listener)18">
+    <div class="stage-header">
+      <span class="stage-badge listener">Stage 1</span>
+      <span class="stage-title">Listener Thread</span>
+      <span class="stage-subtitle">daemon · never blocks</span>
+    </div>
+    <div class="stage-body">
+      <div style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap">
+        <span class="io-badge input">&#9654; YouTube Live Stream URL</span>
+        <span class="io-badge output">&#9654; transcript.jsonl</span>
+      </div>
+      <div class="flow cols-7">
+        <div class="flow-step listener-step" style="position:relative">
+          <span class="timing">t=0s</span>
+          <span class="icon">&#128279;</span>
+          <span class="tool">yt-dlp</span>
+          <span class="desc">Extract audio + video stream URLs from YouTube</span>
+          <span class="detail">refreshes every 60min</span>
+        </div>
+        <span class="flow-arrow">&#8594;</span>
+        <div class="flow-step listener-step" style="position:relative">
+          <span class="timing">t=0s</span>
+          <span class="icon">&#127909;</span>
+          <span class="tool">ffmpeg</span>
+          <span class="desc">Start 30s audio capture via <code>Popen</code> (non-blocking)</span>
+          <span class="detail">16kHz mono PCM</span>
+        </div>
+        <span class="flow-arrow">&#8594;</span>
+        <div class="flow-step listener-step" style="position:relative">
+          <span class="timing">t=5s</span>
+          <span class="icon">&#128248;</span>
+          <span class="tool">ffmpeg</span>
+          <span class="desc">Capture video frame (5s delay ensures speaker on-screen)</span>
+          <span class="detail">360p single frame</span>
+        </div>
+        <span class="flow-arrow">&#8594;</span>
+        <div class="flow-step listener-step" style="position:relative">
+          <span class="timing">t=5s</span>
+          <span class="icon">&#128100;</span>
+          <span class="tool">Face ID</span>
+          <span class="desc">Match face against 108 MP encodings (128-dim, threshold 0.5)</span>
+          <span class="detail">mp_faces/ → face_shots/</span>
+        </div>
+        <span class="flow-arrow">&#8594;</span>
+        <div class="flow-step listener-step" style="position:relative">
+          <span class="timing">t=30s</span>
+          <span class="icon">&#127908;</span>
+          <span class="tool">Whisper</span>
+          <span class="desc">Transcribe audio chunk (Singlish-trained small model)</span>
+          <span class="detail">jensenlwt/whisper-small-singlish-122k</span>
+        </div>
+        <span class="flow-arrow">&#8594;</span>
+        <div class="flow-step listener-step" style="position:relative">
+          <span class="timing">t=30s</span>
+          <span class="icon">&#128483;</span>
+          <span class="tool">pyannote</span>
+          <span class="desc">Speaker diarisation — identify speaker segments by timecode</span>
+          <span class="detail">pyannote/speaker-diarization-3.1</span>
+        </div>
+        <span class="flow-arrow">&#8594;</span>
+        <div class="flow-step listener-step">
+          <span class="icon">&#128196;</span>
+          <span class="tool">Merge</span>
+          <span class="desc">Combine transcript + speakers + identified_speaker → JSONL entry</span>
+          <span class="detail">append to transcript.jsonl</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── CONNECTOR ─── -->
+  <div class="connector">
+    <div class="connector-line"></div>
+    <div class="connector-label"><span class="file">transcript.jsonl</span>&nbsp; via threading.Event</div>
+    <div class="connector-line"></div>
+  </div>
+
+  <!-- ═══════════ STAGE 2: COORDINATOR ═══════════ -->
+  <div class="stage" style="border-color:var(--coordinator)18">
+    <div class="stage-header">
+      <span class="stage-badge coordinator">Stage 2</span>
+      <span class="stage-title">Coordinator</span>
+      <span class="stage-subtitle">main thread · triage + dispatch</span>
+    </div>
+    <div class="stage-body">
+      <div class="flow cols-4" style="margin-bottom:16px">
+        <div class="flow-step coordinator-step">
+          <span class="icon">&#128196;</span>
+          <span class="tool">Read Chunks</span>
+          <span class="desc">Read new lines since cursor position from transcript.jsonl</span>
+        </div>
+        <span class="flow-arrow">&#8594;</span>
+        <div class="flow-step coordinator-step">
+          <span class="icon">&#9874;</span>
+          <span class="tool">Corrections</span>
+          <span class="desc">Apply corrections.json: names &#8594; terms &#8594; abbreviations (longest-first)</span>
+          <span class="detail">auto-reloads on mtime change</span>
+        </div>
+        <span class="flow-arrow">&#8594;</span>
+        <div class="flow-step gemini-step">
+          <span class="icon">&#10024;</span>
+          <span class="tool">Gemini 2.5 Flash</span>
+          <span class="desc">Triage: score 1-5 newsworthiness (batched, max 8 chunks/call)</span>
+          <span class="detail">low temp 0.3</span>
+        </div>
+        <span class="flow-arrow">&#8594;</span>
+        <div class="flow-step coordinator-step">
+          <span class="icon">&#128230;</span>
+          <span class="tool">Dispatch</span>
+          <span class="desc">Build batches by score rules, gather context radius, submit to pool</span>
+        </div>
+      </div>
+
+      <div class="section-label">Nose-for-News-o-Meter &#8212; Triage Scoring</div>
+      <div class="triage-grid">
+        <div class="triage-item t5">
+          <div class="triage-score">5</div>
+          <div class="triage-label">Breaking</div>
+          <div class="triage-rule">Dispatch immediately<br>radius=3 context</div>
+        </div>
+        <div class="triage-item t4">
+          <div class="triage-score">4</div>
+          <div class="triage-label">Strong</div>
+          <div class="triage-rule">Dispatch immediately<br>radius=2 context</div>
+        </div>
+        <div class="triage-item t3">
+          <div class="triage-score">3</div>
+          <div class="triage-label">Notable</div>
+          <div class="triage-rule">Batch 2+ together<br>silence/timeout 3min</div>
+        </div>
+        <div class="triage-item t2">
+          <div class="triage-score">2</div>
+          <div class="triage-label">Colour</div>
+          <div class="triage-rule">Never alone<br>swept into adjacent</div>
+        </div>
+        <div class="triage-item t1">
+          <div class="triage-score">1</div>
+          <div class="triage-label">Routine</div>
+          <div class="triage-rule">Never dispatched<br>procedural only</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── CONNECTOR ─── -->
+  <div class="connector coord">
+    <div class="connector-line"></div>
+    <div class="connector-label"><span class="file">ThreadPoolExecutor.submit()</span></div>
+    <div class="connector-line"></div>
+  </div>
+
+  <!-- ═══════════ STAGE 3: BLOGGER POOL ═══════════ -->
+  <div class="stage" style="border-color:var(--blogger)18">
+    <div class="stage-header">
+      <span class="stage-badge blogger">Stage 3</span>
+      <span class="stage-title">Blogger Pool</span>
+      <span class="stage-subtitle">ThreadPoolExecutor · max 3 workers</span>
+    </div>
+    <div class="stage-body">
+      <div class="blogger-lanes">
+        <div class="blogger-lane">
+          <div class="blogger-lane-title"><span class="pulse"></span> Blogger 1</div>
+          <div class="step"><span class="step-num">01</span><span class="step-text"><span class="em">Gemini</span> call #1 — generate ST-style blog draft</span></div>
+          <div class="step"><span class="step-num">02</span><span class="step-text"><span class="em">Gemini</span> call #2 — editor pass: add <code>&lt;aside&gt;</code> context blocks</span></div>
+          <div class="step"><span class="step-num">03</span><span class="step-text">Append to <span class="file">liveblog.md</span> (blog_lock)</span></div>
+        </div>
+        <div class="blogger-lane">
+          <div class="blogger-lane-title"><span class="pulse" style="animation-delay:.6s"></span> Blogger 2</div>
+          <div class="step"><span class="step-num">01</span><span class="step-text"><span class="em">Gemini</span> call #1 — generate ST-style blog draft</span></div>
+          <div class="step"><span class="step-num">02</span><span class="step-text"><span class="em">Gemini</span> call #2 — editor pass: add <code>&lt;aside&gt;</code> context blocks</span></div>
+          <div class="step"><span class="step-num">03</span><span class="step-text">Append to <span class="file">liveblog.md</span> (blog_lock)</span></div>
+        </div>
+        <div class="blogger-lane">
+          <div class="blogger-lane-title"><span class="pulse" style="animation-delay:1.2s"></span> Blogger 3</div>
+          <div class="step"><span class="step-num">01</span><span class="step-text"><span class="em">Gemini</span> call #1 — generate ST-style blog draft</span></div>
+          <div class="step"><span class="step-num">02</span><span class="step-text"><span class="em">Gemini</span> call #2 — editor pass: add <code>&lt;aside&gt;</code> context blocks</span></div>
+          <div class="step"><span class="step-num">03</span><span class="step-text">Append to <span class="file">liveblog.md</span> (blog_lock)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SHARED STATE ═══════════ -->
+  <div class="shared-state">
+    <div class="shared-state-header">&#128450; Shared State &amp; Files</div>
+    <div class="shared-state-body">
+      <div class="state-item">
+        <div class="name">transcript.jsonl <span class="lock">&#128274;</span></div>
+        <div class="meta">Append-only · transcript_lock<br>timestamp, elapsed, text, speakers, identified_speaker, is_silence</div>
+      </div>
+      <div class="state-item">
+        <div class="name">liveblog.md <span class="lock">&#128274;</span></div>
+        <div class="meta">Append-only · blog_lock<br>Timestamped ST-style entries + &lt;aside&gt; blocks</div>
+      </div>
+      <div class="state-item">
+        <div class="name">corrections.json</div>
+        <div class="meta">Hot-reloaded on mtime change<br>names → terms → abbreviations</div>
+      </div>
+      <div class="state-item">
+        <div class="name">mp_list.json</div>
+        <div class="meta">108 MPs · read-only<br>name, title, party, constituency</div>
+      </div>
+      <div class="state-item">
+        <div class="name">mp_faces/</div>
+        <div class="meta">108 photos + index.json<br>128-dim face encodings loaded at startup</div>
+      </div>
+      <div class="state-item">
+        <div class="name">face_shots/</div>
+        <div class="meta">Write-only · on speaker change<br>YYYYMMDD_HHMMSS_name.jpg</div>
+      </div>
+      <div class="state-item">
+        <div class="name" style="color:var(--gemini)">PipelineState</div>
+        <div class="meta">Dataclass w/ locks, events<br>cursor, scored_queue, pending_futures</div>
+      </div>
+      <div class="state-item">
+        <div class="name" style="color:var(--coordinator)">threading.Event</div>
+        <div class="meta">new_data · shutdown<br>Listener → Coordinator signal</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SHUTDOWN ═══════════ -->
+  <div class="shutdown">
+    <div class="shutdown-header">&#9888;&#65039; Graceful Shutdown</div>
+    <div class="shutdown-body">
+      <div class="shutdown-steps">
+        <div class="shutdown-step">
+          <div class="num">01</div>
+          <div class="label">Stream End Detected</div>
+          <div class="info">yt-dlp error signals ("live has ended", "Video unavailable") or 5 consecutive capture failures</div>
+        </div>
+        <div class="shutdown-step">
+          <div class="num">02</div>
+          <div class="label">Listener Stops</div>
+          <div class="info">Sets state.shutdown event, breaks loop, cleans up tempdir</div>
+        </div>
+        <div class="shutdown-step">
+          <div class="num">03</div>
+          <div class="label">Final Dispatch</div>
+          <div class="info">Coordinator triages remaining chunks, dispatches all scored ≥ 2 as final batch</div>
+        </div>
+        <div class="shutdown-step">
+          <div class="num">04</div>
+          <div class="label">Wait &amp; Exit</div>
+          <div class="info">Waits for all blogger futures (timeout 120s each), then clean exit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Subtle floating particles
+const container = document.getElementById('particles');
+const colors = ['#00d4ff','#f0a030','#40e080','#a78bfa'];
+for(let i=0;i<20;i++){
+  const p=document.createElement('div');
+  p.className='particle';
+  p.style.cssText=`
+    left:${Math.random()*100}%;
+    bottom:${-10-Math.random()*20}px;
+    width:${1+Math.random()*2}px;
+    height:${1+Math.random()*2}px;
+    background:${colors[Math.floor(Math.random()*colors.length)]};
+    animation-duration:${8+Math.random()*12}s;
+    animation-delay:${Math.random()*10}s;
+  `;
+  container.appendChild(p);
+}
+</script>
+</body>
+</html>

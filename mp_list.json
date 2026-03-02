@@ -1,0 +1,758 @@
+[
+  {
+    "name": "Lawrence Wong",
+    "title": "Prime Minister, Minister for Finance",
+    "constituency": "Marsiling-Yew Tee GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Lee Hsien Loong",
+    "title": "Senior Minister",
+    "constituency": "Ang Mo Kio GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Gan Kim Yong",
+    "title": "Deputy Prime Minister, Minister for Trade and Industry",
+    "constituency": "Punggol GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "K Shanmugam",
+    "title": "Coordinating Minister for National Security, Minister for Home Affairs",
+    "constituency": "Nee Soon GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Chan Chun Sing",
+    "title": "Coordinating Minister for Public Services, Minister for Defence",
+    "constituency": "Tanjong Pagar GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Ong Ye Kung",
+    "title": "Coordinating Minister for Social Policies, Minister for Health",
+    "constituency": "Sembawang GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Vivian Balakrishnan",
+    "title": "Minister for Foreign Affairs",
+    "constituency": "Holland-Bukit Timah GRC",
+    "party": "PAP",
+    "honorific": "Dr"
+  },
+  {
+    "name": "Josephine Teo",
+    "title": "Minister for Digital Development and Information",
+    "constituency": "Jalan Besar GRC",
+    "party": "PAP",
+    "honorific": "Mrs"
+  },
+  {
+    "name": "Grace Fu",
+    "title": "Minister for Sustainability and the Environment, Minister-in-charge of Trade Relations",
+    "constituency": "Jurong East-Bukit Batok GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Masagos Zulkifli",
+    "title": "Minister for Social and Family Development",
+    "constituency": "Tampines GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Desmond Lee",
+    "title": "Minister for Education",
+    "constituency": "West Coast-Jurong West GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Edwin Tong",
+    "title": "Minister for Law, Second Minister for Home Affairs",
+    "constituency": "East Coast GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Indranee Rajah",
+    "title": "Minister in the Prime Minister's Office, Second Minister for Finance, Second Minister for National Development",
+    "constituency": "Pasir Ris-Changi GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Tan See Leng",
+    "title": "Minister for Manpower, Minister-in-charge of Energy and Science & Technology",
+    "constituency": "Chua Chu Kang GRC",
+    "party": "PAP",
+    "honorific": "Dr"
+  },
+  {
+    "name": "Chee Hong Tat",
+    "title": "Minister for National Development",
+    "constituency": "Bishan-Toa Payoh GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "David Neo",
+    "title": "Acting Minister for Culture, Community and Youth, Senior Minister of State for Education",
+    "constituency": "Tampines GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Jeffrey Siow",
+    "title": "Acting Minister for Transport, Senior Minister of State for Finance",
+    "constituency": "Chua Chu Kang GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Muhammad Faishal Ibrahim",
+    "title": "Senior Minister of State for Home Affairs, Acting Minister-in-charge of Muslim Affairs",
+    "constituency": "Marine Parade-Braddell Heights GRC",
+    "party": "PAP",
+    "honorific": "Assoc Prof"
+  },
+  {
+    "name": "Sim Ann",
+    "title": "Senior Minister of State for Foreign Affairs, Senior Minister of State for Home Affairs",
+    "constituency": "Holland-Bukit Timah GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Janil Puthucheary",
+    "title": "Senior Minister of State for Education, Senior Minister of State for Sustainability and the Environment",
+    "constituency": "Punggol GRC",
+    "party": "PAP",
+    "honorific": "Dr"
+  },
+  {
+    "name": "Tan Kiat How",
+    "title": "Senior Minister of State for Digital Development and Information, Senior Minister of State for Health",
+    "constituency": "East Coast GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Koh Poh Koon",
+    "title": "Senior Minister of State for Health, Senior Minister of State for Manpower",
+    "constituency": "Tampines GRC",
+    "party": "PAP",
+    "honorific": "Dr"
+  },
+  {
+    "name": "Sun Xueling",
+    "title": "Senior Minister of State for National Development, Senior Minister of State for Transport",
+    "constituency": "Punggol GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Murali Pillai",
+    "title": "Senior Minister of State for Law, Senior Minister of State for Transport",
+    "constituency": "Jurong East-Bukit Batok GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Low Yen Ling",
+    "title": "Senior Minister of State for Culture, Community and Youth, Senior Minister of State for Trade and Industry",
+    "constituency": "Bukit Gombak SMC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Desmond Tan",
+    "title": "Senior Minister of State in the Prime Minister's Office",
+    "constituency": "Pasir Ris-Changi GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Zaqy Mohamad",
+    "title": "Senior Minister of State for Defence, Senior Minister of State for Manpower",
+    "constituency": "Marsiling-Yew Tee GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Rahayu Mahzam",
+    "title": "Minister of State for Digital Development and Information, Minister of State for Health",
+    "constituency": "Jurong East-Bukit Batok GRC",
+    "party": "PAP",
+    "honorific": "Mdm"
+  },
+  {
+    "name": "Alvin Tan",
+    "title": "Minister of State for National Development, Minister of State for Trade and Industry",
+    "constituency": "Tanjong Pagar GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Baey Yam Keng",
+    "title": "Minister of State for Culture, Community and Youth, Minister of State for Transport",
+    "constituency": "Tampines GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Desmond Choo",
+    "title": "Minister of State for Defence",
+    "constituency": "Tampines Changkat SMC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Zhulkarnain Abdul Rahim",
+    "title": "Minister of State for Foreign Affairs, Minister of State for Social and Family Development",
+    "constituency": "Chua Chu Kang GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Dinesh Vasu Dash",
+    "title": "Minister of State for Culture, Community and Youth, Minister of State for Manpower",
+    "constituency": "East Coast GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Shawn Huang",
+    "title": "Senior Parliamentary Secretary for Finance, Senior Parliamentary Secretary for Manpower",
+    "constituency": "West Coast-Jurong West GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Eric Chua",
+    "title": "Senior Parliamentary Secretary for Law",
+    "constituency": "Queenstown SMC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Syed Harun Alhabsyi",
+    "title": "Senior Parliamentary Secretary for Education, Senior Parliamentary Secretary for National Development",
+    "constituency": "Nee Soon GRC",
+    "party": "PAP",
+    "honorific": "Dr"
+  },
+  {
+    "name": "Seah Kian Peng",
+    "title": "Speaker of Parliament",
+    "constituency": "Marine Parade-Braddell Heights GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Christopher de Souza",
+    "title": "Deputy Speaker",
+    "constituency": "Holland-Bukit Timah GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Xie Yao Quan",
+    "title": "Deputy Speaker",
+    "constituency": "Jurong Central SMC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Darryl David",
+    "title": "MP",
+    "constituency": "Ang Mo Kio GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Nadia Ahmad Samdin",
+    "title": "MP",
+    "constituency": "Ang Mo Kio GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Victor Lye",
+    "title": "MP",
+    "constituency": "Ang Mo Kio GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Jasmin Lau",
+    "title": "MP",
+    "constituency": "Ang Mo Kio GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Cai Yinzhou",
+    "title": "MP",
+    "constituency": "Bishan-Toa Payoh GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Elysa Chen",
+    "title": "MP",
+    "constituency": "Bishan-Toa Payoh GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Saktiandi Supaat",
+    "title": "MP",
+    "constituency": "Bishan-Toa Payoh GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Choo Pei Ling",
+    "title": "MP",
+    "constituency": "Chua Chu Kang GRC",
+    "party": "PAP",
+    "honorific": "Dr"
+  },
+  {
+    "name": "Jessica Tan",
+    "title": "MP",
+    "constituency": "East Coast GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Hazlina Abdul Halim",
+    "title": "MP",
+    "constituency": "East Coast GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Edward Chia",
+    "title": "MP",
+    "constituency": "Holland-Bukit Timah GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Denise Phua",
+    "title": "MP",
+    "constituency": "Jalan Besar GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Wan Rizal",
+    "title": "MP",
+    "constituency": "Jalan Besar GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Shawn Loh",
+    "title": "MP",
+    "constituency": "Jalan Besar GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "David Hoe",
+    "title": "MP",
+    "constituency": "Jurong East-Bukit Batok GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Lee Hong Chuang",
+    "title": "MP",
+    "constituency": "Jurong East-Bukit Batok GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Goh Pei Ming",
+    "title": "MP",
+    "constituency": "Marine Parade-Braddell Heights GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Tin Pei Ling",
+    "title": "MP",
+    "constituency": "Marine Parade-Braddell Heights GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Diana Pang",
+    "title": "MP",
+    "constituency": "Marine Parade-Braddell Heights GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Alex Yam",
+    "title": "MP",
+    "constituency": "Marsiling-Yew Tee GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Hany Soh",
+    "title": "MP",
+    "constituency": "Marsiling-Yew Tee GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Goh Hanyan",
+    "title": "MP",
+    "constituency": "Nee Soon GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Jackson Lam",
+    "title": "MP",
+    "constituency": "Nee Soon GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Lee Hui Ying",
+    "title": "MP",
+    "constituency": "Nee Soon GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Sharael Taha",
+    "title": "MP",
+    "constituency": "Pasir Ris-Changi GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Valerie Lee",
+    "title": "MP",
+    "constituency": "Pasir Ris-Changi GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Yeo Wan Ling",
+    "title": "MP",
+    "constituency": "Punggol GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Vikram Nair",
+    "title": "MP",
+    "constituency": "Sembawang GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Mariam Jaafar",
+    "title": "MP",
+    "constituency": "Sembawang GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Gabriel Lam",
+    "title": "MP",
+    "constituency": "Sembawang GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Ng Shi Xuan",
+    "title": "MP",
+    "constituency": "Sembawang GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Charlene Chen",
+    "title": "MP",
+    "constituency": "Tampines GRC",
+    "party": "PAP",
+    "honorific": "Dr"
+  },
+  {
+    "name": "Joan Pereira",
+    "title": "MP",
+    "constituency": "Tanjong Pagar GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Rachel Ong",
+    "title": "MP",
+    "constituency": "Tanjong Pagar GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Foo Cexiang",
+    "title": "MP",
+    "constituency": "Tanjong Pagar GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Ang Wei Neng",
+    "title": "MP",
+    "constituency": "West Coast-Jurong West GRC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Cassandra Lee",
+    "title": "MP",
+    "constituency": "West Coast-Jurong West GRC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Hamid Razak",
+    "title": "MP",
+    "constituency": "West Coast-Jurong West GRC",
+    "party": "PAP",
+    "honorific": "Dr"
+  },
+  {
+    "name": "Liang Eng Hwa",
+    "title": "MP",
+    "constituency": "Bukit Panjang SMC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Gan Siow Huang",
+    "title": "MP",
+    "constituency": "Marymount SMC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Henry Kwek",
+    "title": "MP",
+    "constituency": "Kebun Baru SMC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Gho Sze Kee",
+    "title": "MP",
+    "constituency": "Mountbatten SMC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Alex Yeo",
+    "title": "MP",
+    "constituency": "Potong Pasir SMC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Ng Chee Meng",
+    "title": "MP",
+    "constituency": "Jalan Kayu SMC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Patrick Tay",
+    "title": "MP",
+    "constituency": "Pioneer SMC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Melvin Yong",
+    "title": "MP",
+    "constituency": "Radin Mas SMC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Poh Li San",
+    "title": "MP",
+    "constituency": "Sembawang West SMC",
+    "party": "PAP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Yip Hon Weng",
+    "title": "MP",
+    "constituency": "Yio Chu Kang SMC",
+    "party": "PAP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Pritam Singh",
+    "title": "Leader of the Opposition",
+    "constituency": "Aljunied GRC",
+    "party": "WP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Sylvia Lim",
+    "title": "MP",
+    "constituency": "Aljunied GRC",
+    "party": "WP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Gerald Giam",
+    "title": "MP",
+    "constituency": "Aljunied GRC",
+    "party": "WP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Fadli Fawzi",
+    "title": "MP",
+    "constituency": "Aljunied GRC",
+    "party": "WP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Kenneth Tiong",
+    "title": "MP",
+    "constituency": "Aljunied GRC",
+    "party": "WP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "He Ting Ru",
+    "title": "MP",
+    "constituency": "Sengkang GRC",
+    "party": "WP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Jamus Lim",
+    "title": "MP",
+    "constituency": "Sengkang GRC",
+    "party": "WP",
+    "honorific": "Assoc Prof"
+  },
+  {
+    "name": "Louis Chua",
+    "title": "MP",
+    "constituency": "Sengkang GRC",
+    "party": "WP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Abdul Muhaimin",
+    "title": "MP",
+    "constituency": "Sengkang GRC",
+    "party": "WP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Dennis Tan",
+    "title": "MP",
+    "constituency": "Hougang SMC",
+    "party": "WP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Eileen Chong",
+    "title": "Non-Constituency MP",
+    "constituency": "Non-Constituency",
+    "party": "WP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Andre Low",
+    "title": "Non-Constituency MP",
+    "constituency": "Non-Constituency",
+    "party": "WP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Azhar Othman",
+    "title": "Nominated MP",
+    "constituency": "Nominated",
+    "party": "NMP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Haresh Singaraju",
+    "title": "Nominated MP",
+    "constituency": "Nominated",
+    "party": "NMP",
+    "honorific": "Dr"
+  },
+  {
+    "name": "Kenneth Goh",
+    "title": "Nominated MP",
+    "constituency": "Nominated",
+    "party": "NMP",
+    "honorific": "Assoc Prof"
+  },
+  {
+    "name": "Kenneth Poon",
+    "title": "Nominated MP",
+    "constituency": "Nominated",
+    "party": "NMP",
+    "honorific": "Prof"
+  },
+  {
+    "name": "Kuah Boon Theng",
+    "title": "Nominated MP",
+    "constituency": "Nominated",
+    "party": "NMP",
+    "honorific": "Ms"
+  },
+  {
+    "name": "Mark Lee",
+    "title": "Nominated MP",
+    "constituency": "Nominated",
+    "party": "NMP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Neo Kok Beng",
+    "title": "Nominated MP",
+    "constituency": "Nominated",
+    "party": "NMP",
+    "honorific": "Dr"
+  },
+  {
+    "name": "Sanjeev Kumar Tiwari",
+    "title": "Nominated MP",
+    "constituency": "Nominated",
+    "party": "NMP",
+    "honorific": "Mr"
+  },
+  {
+    "name": "Terence Ho",
+    "title": "Nominated MP",
+    "constituency": "Nominated",
+    "party": "NMP",
+    "honorific": "Assoc Prof"
+  }
+]
